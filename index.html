@@ -1,24 +1,138 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html>
 <head>
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <title>John Doe</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <script src="jquery.min.js"></script>
+  <script src="typed.custom.js"></script>  
+
+  <script>
+$(function() {
+  var data = [
+  { 
+    action: 'type',
+    strings: ["sudo uname -a^400"],
+    output: '<span class="gray">Zinux058</span><br>&nbsp;',
+    postDelay: 1000
+  },
+
+  { 
+    action: 'type',
+    strings: ["sudo whoami^400"],
+    output: '<span class="gray">Bajpan Gosh</span><br>&nbsp;',
+    postDelay: 1000
+  },
+
+    { 
+    action: 'type',
+    strings: ["sudo cat about_me.txt^400"],
+    output: '<span class="gray"> I always think about what I am doing. I know the web servers are in trouble. Hacking, Crashing etc. so I become a problem solver! Yes I am a server admin. Love works on Linux VPS and love to watch the htop terminal gets 60% process reach. Then think how many people are out there? Heavy traffic. let&#39;s do some load balance Technic. Let&#39;s create new server to migrate the VPS. Tada. That&#39;s my job. Lets fixing server problems with in minutes and free time watch any BBC documentary&#39;s on YouTube. </span><br>&nbsp;',
+    postDelay: 1000
+  },
+  { 
+    action: 'type',
+    //clear: true,
+    strings: ['sudo python resume.py^400'],
+    output: $('.mimik-run-output').html()
+  },
+  { 
+    action: 'type',
+    strings: ["that was easy!", ''],
+    postDelay: 2000
+  }
+  
+];
+  runScripts(data, 0);
+});
+
+function runScripts(data, pos) {
+    var prompt = $('.prompt'),
+        script = data[pos];
+    if(script.clear === true) {
+      $('.history').html(''); 
+    }
+    switch(script.action) {
+        case 'type':
+          // cleanup for next execution
+          prompt.removeData();
+          $('.typed-cursor').text('');
+          prompt.typed({
+            strings: script.strings,
+            typeSpeed: 30,
+            callback: function() {
+              var history = $('.history').html();
+              history = history ? [history] : [];
+              history.push('$ ' + prompt.text());
+              if(script.output) {
+                history.push(script.output);
+                prompt.html('');
+                $('.history').html(history.join('<br>'));
+              }
+              // scroll to bottom of screen
+              $('section.terminal').scrollTop($('section.terminal').height());
+              // Run next script
+              pos++;
+              if(pos < data.length) {
+                setTimeout(function() {
+                  runScripts(data, pos);
+                }, script.postDelay || 1000);
+              }
+            }
+          });
+          break;
+        case 'view':
+
+          break;
+    }
+}
+
+
+</script>
+
 </head>
 
+
+
+
 <body>
-  <div class="terminal">
-    <span class="dollar"></span> hi there, i'm john
-    <br/>
-    <span class="dollar"></span> a web developer
-    <br/>
-    <span class="dollar"></span> based in uk
-    <br/>
-    <span class="dollar"></span> i drink a lot of tea
-    <br/>
-    <span class="dollar"></span> and build beautiful websites
-  </div>
+
+
+<div class="terminal-window">
+  <header>
+    <div class="button green"></div>
+    <div class="button yellow"></div>
+    <div class="button red"></div>
+  </header>
+  <section class="terminal">
+    <div class="history"></div>
+    $&nbsp;<span class="prompt"></span>
+    <span class="typed-cursor"></span>
+    
+  </section>
+</div>
+<!-- data -->
+  <div class="terminal-data mimik-run-output">
+ <br>Found 1 feature<br>
+ ----------------------------------------------<br>
+ Software / Tools:  <span class="gray">.SSH/VNC/Telnet/scp/MariaDB/S3cmd/Grep/Squid/Varnish/Nginx/Apache/ #AWS (RDS, EC2,S3) /LibreS3/SXCluster.</span><br><br> 
+ Service / VPS:  <span class="gray">.Amazon Web Services/DigitalOcean/Linode/CloudFlare/ #Linux (CentOS, Debian, Ubuntu, Fedora) Windows Server 2012 R2.</span><br><br>
+
+ &nbsp;&nbsp;Summary of Qualifications<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="green">~</span> <span class="gray">LAMP guru with over 3 years</span><br>
+ &nbsp;&nbsp;&nbsp;&nbsp;<span class="green">~</span> <span class="gray">Expert on Linux/UNIX servers using Perl, Bash, Expect, etc.</span><br>
+ &nbsp;&nbsp;&nbsp;&nbsp;<span class="green">~</span> <span class="gray">then there are 99 green bottles standing</span><br>
+ <br>
+    <span class="gray">&nbsp;---------- ----------- ------- -------- --------</span><br>
+&nbsp;&nbsp;problem solving skills&nbsp;&nbsp;&nbsp;Scenarios&nbsp;&nbsp;&nbsp;Steps&nbsp;&nbsp;&nbsp;PSS&nbsp;&nbsp;&nbsp;Failed<br>
+    <span class="gray">&nbsp;---------- ----------- ------- -------- --------</span><br>
+&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="green">100%</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0      <br>
+  <br>
+&nbsp;&nbsp;Completed 1 feature in 0.01s<br>
+  <br>
+</div>
+
+
+
 
 </body>
-
 </html>
